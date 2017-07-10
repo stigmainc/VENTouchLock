@@ -35,6 +35,8 @@ static const NSInteger VENTouchLockViewControllerPasscodeLength = 4;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+
     self.view.backgroundColor = [self.touchLock appearance].passcodeViewControllerBackgroundColor;
     [self configureInvisiblePasscodeField];
     [self configureNavigationItems];
@@ -111,6 +113,11 @@ static const NSInteger VENTouchLockViewControllerPasscodeLength = 4;
         CGFloat passcodeLockViewHeight = CGRectGetHeight(self.view.frame) - CGRectGetHeight(newKeyboardFrame);
         CGFloat passcodeLockViewWidth = CGRectGetWidth(self.view.frame);
     self.passcodeView.frame = CGRectMake(0, 0, passcodeLockViewWidth, passcodeLockViewHeight);
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)notification
+{
+    [self.invisiblePasscodeField becomeFirstResponder];
 }
 
 - (void)enteredPasscode:(NSString *)passcode
